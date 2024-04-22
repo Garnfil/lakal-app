@@ -1,10 +1,11 @@
+"use client"
 import React from 'react'
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button"
 import { Banknote, Check, Eye, MapPin, Ruler, Truck, User } from 'lucide-react';
 import Link from 'next/link';
 
-function numberWithCommas(x) {
+function numberWithCommas(x = 0) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
@@ -19,7 +20,7 @@ export const OpenToBuyPostCard = (props) => {
                     <div className="flex justify-start items-center gap-5">
                         <div className='flex items-center gap-1' title='Ceiling Price'>
                             <Banknote color="#00a86b" size={18} />
-                            <h6 className='text-sm'>₱ {numberWithCommas(post.data.ceilingPrice.toFixed(2))}</h6>
+                            <h6 className='text-sm'>₱ {numberWithCommas(post.data?.ceilingPrice?.toFixed(2))}</h6>
                         </div>
                         <div className='flex items-center gap-1' title='Location of Delivery'>
                             <MapPin color="#00a86b" size={18} />
@@ -58,7 +59,7 @@ export const OpenToBuyPostCard = (props) => {
             <div className="flex justify-end items-center space-x-2 pt-3 ">
                 <Button variant="outline">Client Profile <User className='ml-2' size={16} /></Button>
                 <Button variant="default" asChild>
-                    <Link href={`/posts/${post.postId}`}>
+                    <Link href={`/posts/${post.data.type}/${post.postId}`}>
                         View Details <Eye className='ml-2' size={16} />
                     </Link>
                 </Button>
