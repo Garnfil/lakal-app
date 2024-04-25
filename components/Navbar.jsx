@@ -13,14 +13,19 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Bell } from "lucide-react";
 import Link from "next/link";
+import { getSession } from "@/lib/session";
 
 export const Navbar = () => {
     const [user, setUser] = useState({});
 
     useEffect(() => {
-        const user = JSON.parse(localStorage.getItem("user"));
-        if (user) setUser(user);
+        fetchSession();
     }, []);
+
+    const fetchSession = async () => {
+        const session = await getSession();
+        setUser(session.payload);
+    }
 
     return (
         <div className="flex items-center h-16 border p-4 rounded-md">
@@ -71,8 +76,8 @@ export const Navbar = () => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
                         <DropdownMenuLabel>
-                            <h5>James Garnfil</h5>
-                            <h6 className="font-light text-[12px]">{user?.email}</h6>
+                            <h5>{user?.email}</h5>
+                            <h6 className="font-light text-[12px]">{user?.activeRole}</h6>
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem className="cursor-pointer" asChild>

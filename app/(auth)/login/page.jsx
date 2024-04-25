@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useRouter } from 'next/navigation'
+import { createSession } from "@/lib/session";
 
 export default function LoginPage() {
     const router = useRouter();
@@ -22,17 +23,14 @@ export default function LoginPage() {
                 "Content-type": "application/json",
                 "Accept": "application/json"
             }
-        })
+        });
 
-        if(response.status != 200) {
+        if (response.status != 200) {
             return alert('Failed!');
         }
 
-
         let data = await response.json();
-        localStorage.setItem("user", JSON.stringify(data.user));
-        localStorage.setItem("access-token", data.user.tokens.accessToken);
-
+        createSession(data.user);
         router.push('/');
     };
 
